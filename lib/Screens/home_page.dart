@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
+import 'package:rootally_assignment/utils/icon_button.dart';
 import '../colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
@@ -52,7 +53,6 @@ class _HomePageState extends State<HomePage> {
             todayChallengesContainer(),
             viewAllRowContainer(context, 'Workout Routines'),
             workoutRoutineBox(),
-
             Text(
               '$_tabSelected',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -65,21 +65,22 @@ class _HomePageState extends State<HomePage> {
 
   SizedBox workoutRoutineBox() {
     return SizedBox(
-            height: 150,
-            child: ListView.builder(
-                itemCount: workoutRoutinesList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return workoutRoutineContainer(
-                      workoutRoutinesList[index].title,
-                      workoutRoutinesList[index].workoutType,
-                      workoutRoutinesList[index].workoutGoal,
-                      workoutRoutinesList[index].difficulty);
-                }),
-          );
+      height: 150,
+      child: ListView.builder(
+          itemCount: workoutRoutinesList.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return workoutRoutineContainer(
+                workoutRoutinesList[index].title,
+                workoutRoutinesList[index].workoutType,
+                workoutRoutinesList[index].workoutGoal,
+                workoutRoutinesList[index].difficulty);
+          }),
+    );
   }
 
-  Container workoutRoutineContainer(String workoutTitle, String workoutType, String workoutGoal, String difficulty) {
+  Container workoutRoutineContainer(String workoutTitle, String workoutType,
+      String workoutGoal, String difficulty) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
@@ -146,22 +147,31 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                 color: ColorContainer.clrGray2,
               )),
-          TextButton.icon(
-              onPressed: () {},
-              label: const Text('Continue'),
-              icon: const Icon(
+          iconButton(
+              'Continue',
+              const Icon(
                 Icons.play_circle_fill_rounded,
                 color: ColorContainer.clrBlue1,
               ),
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(ColorContainer.clrWhite),
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
-              ))
+              ColorContainer.clrBlue1,
+              ColorContainer.clrWhite,
+              () {})
+          // TextButton.icon(
+          //     onPressed: () {},
+          //     label: const Text('Continue'),
+          //     icon: const Icon(
+          //       Icons.play_circle_fill_rounded,
+          //       color: ColorContainer.clrBlue1,
+          //     ),
+          //     style: ButtonStyle(
+          //       backgroundColor:
+          //           WidgetStateProperty.all<Color>(ColorContainer.clrWhite),
+          //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+          //         RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(40),
+          //         ),
+          //       ),
+          //     ))
         ],
       ),
     );
@@ -200,7 +210,9 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       padding: const EdgeInsets.all(10),
       height: 300,
-      child: _tabSelected == TabSelected.assessments ? myAssessmentListView() : myAppointmentsListView(),
+      child: _tabSelected == TabSelected.assessments
+          ? myAssessmentListView()
+          : myAppointmentsListView(),
     );
   }
 
@@ -236,7 +248,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-            Navigator.pushNamed(context, '/assessment');
+              Navigator.pushNamed(context, '/assessment');
             },
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -249,8 +261,20 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(fitnessChallengesList[index].title, style: const TextStyle(color: ColorContainer.clrGray2, fontWeight: FontWeight.bold, fontSize: 20),),
-                  Text(fitnessChallengesList[index].description, style: const TextStyle(color: ColorContainer.clrGray2, fontWeight: FontWeight.normal, fontSize: 12),),
+                  Text(
+                    fitnessChallengesList[index].title,
+                    style: const TextStyle(
+                        color: ColorContainer.clrGray2,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  Text(
+                    fitnessChallengesList[index].description,
+                    style: const TextStyle(
+                        color: ColorContainer.clrGray2,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 12),
+                  ),
                 ],
               ),
             ),
