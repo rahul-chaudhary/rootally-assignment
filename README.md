@@ -1,6 +1,6 @@
 # rootally_assignment
 
-A new Flutter project.
+Switch to development branch to view latest changes.
 
 
 
