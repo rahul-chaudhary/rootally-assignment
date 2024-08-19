@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 
-TextButton iconButton(String label, Icon icon, Color btnTxtColor, Color btnBgColor, VoidCallback onPressed) {
+TextButton iconButton(Text txt, Icon icon, Color btnBgColor, VoidCallback onPressed) {
   return TextButton.icon(
       onPressed: () {},
-      label: Text(label, style: TextStyle(color: btnTxtColor)),
+      label: txt,
       icon: icon,
       style: ButtonStyle(
         backgroundColor:

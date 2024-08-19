@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
 import '../colors_container.dart';
@@ -39,8 +41,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: ColorContainer.clrWhite,
       appBar: AppBar(
+        toolbarHeight: 70,
         backgroundColor: ColorContainer.clrWhite,
-        title: topAppBarRow(context),
+        title: topAppBarContainer(context),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,19 +56,16 @@ class _HomePageState extends State<HomePage> {
             todayChallengesContainer(),
             viewAllRowContainer(context, 'Workout Routines'),
             workoutRoutineBox(),
-            Text(
-              '$_tabSelected',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
           ],
         ),
       ),
     );
   }
 
-  SizedBox workoutRoutineBox() {
-    return SizedBox(
+  Container workoutRoutineBox() {
+    return Container(
       height: 150,
+      margin: const EdgeInsets.only(bottom: 25),
       child: ListView.builder(
           itemCount: workoutRoutinesList.length,
           scrollDirection: Axis.horizontal,
@@ -74,42 +74,114 @@ class _HomePageState extends State<HomePage> {
                 workoutRoutinesList[index].title,
                 workoutRoutinesList[index].workoutType,
                 workoutRoutinesList[index].workoutGoal,
-                workoutRoutinesList[index].difficulty);
+                workoutRoutinesList[index].difficulty,
+                workoutRoutinesList[index].imgAssetPath);
           }),
     );
   }
 
   Container workoutRoutineContainer(String workoutTitle, String workoutType,
-      String workoutGoal, String difficulty) {
+      String workoutGoal, String difficulty, String imgAssetPath) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       decoration: BoxDecoration(
         color: ColorContainer.clrWhite,
         border: Border.all(
-          color: ColorContainer.clrGray1,
-          width: 1,
+          color: ColorContainer.clrGray3,
+          width: 1.5,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            workoutTitle,
-            style: const TextStyle(color: ColorContainer.clrGray2),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(0.0),
+                bottomRight: Radius.circular(0.0),
+                bottomLeft: Radius.circular(20.0),
+              ),
+              child: Container(
+                height: double.infinity,
+                color: ColorContainer.clrCream1,
+                child: Image.asset(
+                  imgAssetPath,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
           ),
-          Text(
-            workoutType,
-            style: const TextStyle(color: ColorContainer.clrGray1),
-          ),
-          roundTxtButton(true, workoutGoal, ColorContainer.clrBlue1,
-              ColorContainer.clrWhite, () {}),
-          Text(
-            'Difficulty: $difficulty',
-            style: const TextStyle(color: ColorContainer.clrPink1),
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    workoutTitle,
+                    style: GoogleFonts.poppins(
+                        color: ColorContainer.clrGray2,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18),
+                  ),
+                  Text(
+                    workoutType,
+                    style: GoogleFonts.poppins(
+                        color: ColorContainer.clrGray1,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: ColorContainer.clrWhite,
+                      border: Border.all(
+                        color: ColorContainer.clrGray3,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      workoutGoal,
+                      style: GoogleFonts.poppins(
+                          color: ColorContainer.clrBlue1,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10),
+                    ),
+                  ),
+                  // roundTxtButton(true, workoutGoal, ColorContainer.clrBlue1, 12.0,
+                  //     ColorContainer.clrWhite, () {}),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Difficulty : ',
+                        style: GoogleFonts.poppins(
+                            color: ColorContainer.clrGray1,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14),
+                      ),
+                      Text(
+                        difficulty,
+                        style: GoogleFonts.poppins(
+                            color: ColorContainer.clrPink1,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -119,59 +191,93 @@ class _HomePageState extends State<HomePage> {
   Container todayChallengesContainer() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(15, 10, 0, 10),
       decoration: BoxDecoration(
         color: ColorContainer.clrGreen2,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text('Today\'s Challenge!',
-              style: TextStyle(
-                fontSize: 20,
-                color: ColorContainer.clrGreen1,
-              )),
-          roundTxtButton(true, 'Push Up 20x', ColorContainer.clrGreen1,
-              ColorContainer.clrWhite, () {}),
-          LinearProgressIndicator(
-            value: 0.5,
-            backgroundColor: ColorContainer.clrWhite,
-            valueColor:
-                const AlwaysStoppedAnimation<Color>(ColorContainer.clrPink1),
-            minHeight: 10,
-            borderRadius: BorderRadius.circular(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 3, horizontal: 0),
+                  child: Text(
+                    'Today\'s Challenge!',
+                    style: GoogleFonts.poppins(
+                        color: ColorContainer.clrGreen1,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16),
+                  ),
+                ),
+                Container(
+                  height: 25,
+                  width: 100,
+                  margin: const EdgeInsets.fromLTRB(0, 2, 0, 10),
+                  decoration: BoxDecoration(
+                    color: ColorContainer.clrGreen1,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Push Up 20x',
+                      style: GoogleFonts.poppins(
+                          color: ColorContainer.clrWhite,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ),
+                LinearProgressIndicator(
+                  value: 0.5,
+                  backgroundColor: ColorContainer.clrWhite,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                      ColorContainer.clrPink1),
+                  minHeight: 12,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                  child: Text(
+                    '10/20 Complete',
+                    style: GoogleFonts.poppins(
+                        color: ColorContainer.clrGray2,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12),
+                  ),
+                ),
+                iconButton(
+                    Text(
+                      'Continue',
+                      style: GoogleFonts.poppins(
+                          color: ColorContainer.clrBlue1,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
+                    ),
+                    const Icon(
+                      Icons.play_circle_fill_rounded,
+                      color: ColorContainer.clrBlue1,
+                    ),
+                    ColorContainer.clrWhite,
+                    () {})
+              ],
+            ),
           ),
-          const Text('10/20 Completed',
-              style: TextStyle(
-                color: ColorContainer.clrGray2,
-              )),
-          iconButton(
-              'Continue',
-              const Icon(
-                Icons.play_circle_fill_rounded,
-                color: ColorContainer.clrBlue1,
+          Expanded(
+            flex: 1,
+            child: SizedBox(
+              child: Image.asset(
+                'lib/assets/images/push_up_girl.png',
+                alignment: Alignment.centerRight,
               ),
-              ColorContainer.clrBlue1,
-              ColorContainer.clrWhite,
-              () {})
-          // TextButton.icon(
-          //     onPressed: () {},
-          //     label: const Text('Continue'),
-          //     icon: const Icon(
-          //       Icons.play_circle_fill_rounded,
-          //       color: ColorContainer.clrBlue1,
-          //     ),
-          //     style: ButtonStyle(
-          //       backgroundColor:
-          //           WidgetStateProperty.all<Color>(ColorContainer.clrWhite),
-          //       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          //         RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(40),
-          //         ),
-          //       ),
-          //     ))
+            ),
+          ),
         ],
       ),
     );
@@ -179,22 +285,36 @@ class _HomePageState extends State<HomePage> {
 
   Container viewAllRowContainer(BuildContext context, String title) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(title),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+                color: ColorContainer.clrGray2,
+                fontWeight: FontWeight.w500,
+                fontSize: 16),
+          ),
           const Spacer(),
           TextButton(
             onPressed: () {
               Navigator.pushNamed(context, '/assessment');
             },
-            child: const Text('View All',
-                style: TextStyle(color: ColorContainer.clrGray2)),
+            child: Text(
+              'View All',
+              style: GoogleFonts.poppins(
+                color: ColorContainer.clrGray2,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
+            ),
           ),
-          const Icon(
-            Icons.arrow_circle_right_rounded,
-            color: ColorContainer.clrIndigo,
+          SvgPicture.asset(
+            'lib/assets/icons/arrow_forward_round_filled.svg',
+            height: 25,
+            width: 25,
           ),
         ],
       ),
@@ -205,14 +325,42 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(
         color: ColorContainer.clrPurple1,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(30),
       ),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       padding: const EdgeInsets.all(10),
-      height: 300,
-      child: _tabSelected == TabSelected.assessments
-          ? myAssessmentListView()
-          : myAppointmentsListView(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 340,
+            child: _tabSelected == TabSelected.assessments
+                ? myAssessmentListView()
+                : myAppointmentsListView(),
+          ),
+          TextButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all<Color>(ColorContainer.clrIndigo),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.symmetric(vertical: 1, horizontal: 40)),
+                // Adjust padding
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+              child: Text(
+                'View All',
+                style: GoogleFonts.poppins(
+                    color: ColorContainer.clrWhite,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14),
+              )),
+        ],
+      ),
     );
   }
 
@@ -227,15 +375,27 @@ class _HomePageState extends State<HomePage> {
         itemCount: appointmentList.length,
         itemBuilder: (context, index) {
           return Container(
-            height: 100,
-            width: 100,
-            color: ColorContainer.clrWhite,
+            height: 60,
+            width: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: appointmentList[index].containerColor,
+            ),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                appointmentList[index].icon,
-                Text(appointmentList[index].title),
+                SvgPicture.asset(appointmentList[index].svgAssetPath),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(appointmentList[index].title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          color: ColorContainer.clrGray2,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14)),
+                ),
               ],
             ),
           );
@@ -251,29 +411,82 @@ class _HomePageState extends State<HomePage> {
               Navigator.pushNamed(context, '/assessment');
             },
             child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               decoration: BoxDecoration(
                 color: ColorContainer.clrWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    fitnessChallengesList[index].title,
-                    style: const TextStyle(
-                        color: ColorContainer.clrGray2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  Text(
-                    fitnessChallengesList[index].description,
-                    style: const TextStyle(
-                        color: ColorContainer.clrGray2,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 12),
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(0.0),
+                            bottomRight: Radius.circular(0.0),
+                            bottomLeft: Radius.circular(20.0),
+                          ),
+                          child: Image.asset(
+                            fitnessChallengesList[index].imgAssetPath,
+                            fit: BoxFit.fill,
+                          ))),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            fitnessChallengesList[index].title,
+                            softWrap: true,
+                            style: const TextStyle(
+                                color: ColorContainer.clrGray2,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                                fitnessChallengesList[index].description,
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.poppins(
+                                    color: ColorContainer.clrGray2,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11)),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'lib/assets/icons/play_round.svg',
+                                  height: 30,
+                                  width: 30,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 10),
+                                  child: Text(
+                                    'Start',
+                                    style: GoogleFonts.poppins(
+                                        color: ColorContainer.clrBlue1,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -284,39 +497,48 @@ class _HomePageState extends State<HomePage> {
 
   Container tabSelectorContainer() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 7),
       decoration: BoxDecoration(
         color: ColorContainer.clrPurple1,
         borderRadius: BorderRadius.circular(40),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          tabTxtButton(_isAssessmentTabSelected, 'My Assessments', () {
-            setState(() {
-              _tabSelected = TabSelected.assessments;
-              _changeTabSelected();
-            });
-          }),
-          tabTxtButton(_isAppointmentTabSelected, 'My Appointments', () {
-            setState(() {
-              _tabSelected = TabSelected.appointments;
-              _changeTabSelected();
-            });
-          }),
+          Expanded(
+            flex: 1,
+            child: tabTxtButton(_isAssessmentTabSelected, 'My Assessments', () {
+              setState(() {
+                _tabSelected = TabSelected.assessments;
+                _changeTabSelected();
+              });
+            }),
+          ),
+          Expanded(
+            flex: 1,
+            child:
+                tabTxtButton(_isAppointmentTabSelected, 'My Appointments', () {
+              setState(() {
+                _tabSelected = TabSelected.appointments;
+                _changeTabSelected();
+              });
+            }),
+          ),
         ],
       ),
     );
   }
 
   TextButton roundTxtButton(bool isEnabled, String btnText, Color btnBgClr,
-      Color btnTxtClr, VoidCallback onPressed) {
+      double fSize, Color btnTxtClr, VoidCallback onPressed) {
     var btnTxtColor = isEnabled ? btnTxtClr : ColorContainer.clrGray1;
     var btnBgColor = isEnabled ? btnBgClr : ColorContainer.clrPurple1;
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
+        minimumSize: WidgetStateProperty.all<Size>(const Size(80, 20)),
         backgroundColor: WidgetStateProperty.all<Color>(btnBgColor),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -326,9 +548,7 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Text(
         btnText,
-        style: TextStyle(
-          color: btnTxtColor,
-        ),
+        style: TextStyle(color: btnTxtColor, fontSize: fSize),
       ),
     );
   }
@@ -351,28 +571,29 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Text(
         btnText,
-        style: TextStyle(
-          color: btnTxtColor,
-        ),
+        style: GoogleFonts.poppins(
+            color: btnTxtColor, fontWeight: FontWeight.w500, fontSize: 14),
       ),
     );
   }
 
-  Row topAppBarRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: ColorContainer.clrBlue1,
-              ),
-        ),
-        const Icon(
-          Icons.account_circle_rounded,
-          color: ColorContainer.clrGray1,
-        ),
-      ],
+  Container topAppBarContainer(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            widget.title,
+            style: GoogleFonts.poppins(
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+                color: ColorContainer.clrBlue1),
+          ),
+          SvgPicture.asset('lib/assets/icons/avatar.svg',
+              height: 26, width: 26),
+        ],
+      ),
     );
   }
 }

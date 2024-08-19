@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
 
 import '../colors_container.dart';
@@ -43,9 +44,14 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               titleText('Benefits'),
               instructionListContainer(AssessmentDetailPage.benefitsList),
               iconButton(
-                  'Start Assessment',
+                  Text(
+                    'Start Assessment',
+                    style: GoogleFonts.poppins(
+                        color: ColorContainer.clrWhite,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12),
+                  ),
                   const Icon(Icons.play_arrow, color: ColorContainer.clrWhite),
-                  ColorContainer.clrWhite,
                   ColorContainer.clrBlue1,
                   () {}
               )
