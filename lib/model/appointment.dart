@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rootally_assignment/colors_container.dart';
+import 'package:rootally_assignment/assets/colors_container.dart';
 
 class Appointment {
   final String svgAssetPath;
