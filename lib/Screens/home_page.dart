@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
-import '../colors_container.dart';
+import '../assets/colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
 import '../model/tab_selected.dart';
