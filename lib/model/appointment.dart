@@ -1,24 +1,30 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rootally_assignment/colors_container.dart';
 
 class Appointment {
-  final Icon icon;
+  final String svgAssetPath;
   final String title;
+  final Color containerColor;
 
-  Appointment({required this.icon, required this.title});
+  Appointment({required this.svgAssetPath, required this.title, required this.containerColor});
 }
 
 //List of 3 appointments
 List<Appointment> appointmentList = [
   Appointment(
-    icon: const Icon(CupertinoIcons.doc_circle),
+    svgAssetPath: 'lib/assets/icons/doctor_round.svg',
     title: "Cancer 2nd opinion",
+    containerColor: ColorContainer.clrBlue2,
+
   ),
   Appointment(
-    icon: const Icon(CupertinoIcons.calendar_today),
+    svgAssetPath: 'lib/assets/icons/physiotherapy_ic.svg',
     title: "Physiotherapy Appointment",
+    containerColor: ColorContainer.clrPurple2,
   ),
   Appointment(
-    icon: const Icon(CupertinoIcons.heart_circle),
+    svgAssetPath: 'lib/assets/icons/dumbbell_round_ic.svg',
     title: "Fitness Appointment",
+    containerColor: ColorContainer.clrCream2,
   ),
 ];

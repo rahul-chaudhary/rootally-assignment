@@ -3,75 +3,31 @@ class WorkoutRoutine {
   final String workoutType;
   final String workoutGoal;
   final String difficulty;
+  final String imgAssetPath;
 
   WorkoutRoutine({
     required this.title,
     required this.workoutType,
     required this.workoutGoal,
     required this.difficulty,
+    required this.imgAssetPath,
   });
 }
 
-// List of 10 workout routines
+// List of workout routines
 List<WorkoutRoutine> workoutRoutinesList = [
   WorkoutRoutine(
     title: "Sweat Starter",
     workoutType: "Full body",
     workoutGoal: "Lose Weight",
     difficulty: "Medium",
+    imgAssetPath: 'lib/assets/images/squatting_gym_girl.png'
   ),
   WorkoutRoutine(
     title: "Cardio Blast",
     workoutType: "Cardio",
     workoutGoal: "Improve Endurance",
     difficulty: "High",
-  ),
-  WorkoutRoutine(
-    title: "Core Strength",
-    workoutType: "Core",
-    workoutGoal: "Build Strength",
-    difficulty: "Medium",
-  ),
-  WorkoutRoutine(
-    title: "Leg Day",
-    workoutType: "Lower body",
-    workoutGoal: "Build Muscle",
-    difficulty: "Hard",
-  ),
-  WorkoutRoutine(
-    title: "HIIT Burner",
-    workoutType: "High Intensity Interval Training",
-    workoutGoal: "Burn Fat",
-    difficulty: "High",
-  ),
-  WorkoutRoutine(
-    title: "Yoga Flow",
-    workoutType: "Flexibility",
-    workoutGoal: "Increase Flexibility",
-    difficulty: "Easy",
-  ),
-  WorkoutRoutine(
-    title: "Upper Body Pump",
-    workoutType: "Upper body",
-    workoutGoal: "Build Strength",
-    difficulty: "Medium",
-  ),
-  WorkoutRoutine(
-    title: "Endurance Builder",
-    workoutType: "Cardio",
-    workoutGoal: "Increase Stamina",
-    difficulty: "Medium",
-  ),
-  WorkoutRoutine(
-    title: "Full Body Stretch",
-    workoutType: "Stretching",
-    workoutGoal: "Improve Mobility",
-    difficulty: "Easy",
-  ),
-  WorkoutRoutine(
-    title: "Strength Circuit",
-    workoutType: "Full body",
-    workoutGoal: "Build Strength",
-    difficulty: "Hard",
+    imgAssetPath: 'lib/assets/images/stretching_man.png'
   ),
 ];
