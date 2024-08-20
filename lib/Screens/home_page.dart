@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
+import 'package:rootally_assignment/retrieve_data.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
 import '../assets/colors_container.dart';
 import '../model/appointment.dart';
@@ -21,7 +22,12 @@ class _HomePageState extends State<HomePage> {
   TabSelected _tabSelected = TabSelected.assessments;
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
-
+  late Future<Map<String, dynamic>> assessmentsData;
+  @override
+  void initState() {
+    super.initState();
+    assessmentsData = getAllAssessment();
+  }
   void _changeTabSelected() {
     setState(() {
       _tabSelected = _tabSelected;
