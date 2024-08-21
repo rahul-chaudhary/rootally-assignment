@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
+import 'package:rootally_assignment/retrieve_data.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
 import '../assets/colors_container.dart';
 import '../model/appointment.dart';
@@ -21,18 +22,18 @@ class _HomePageState extends State<HomePage> {
   TabSelected _tabSelected = TabSelected.assessments;
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
-
-  void _changeTabSelected() {
+  late Future<List<FitnessChallenge>> assessmentsData;
+  @override
+  void initState() {
+    super.initState();
+    assessmentsData = getAllAssessment();
+  }
+  void _changeTabSelected(TabSelected selectedTab) {
     setState(() {
-      _tabSelected = _tabSelected;
+      _tabSelected = selectedTab;
 
-      if (_tabSelected == TabSelected.assessments) {
-        _isAssessmentTabSelected = true;
-        _isAppointmentTabSelected = false;
-      } else {
-        _isAssessmentTabSelected = false;
-        _isAppointmentTabSelected = true;
-      }
+      _isAssessmentTabSelected = _tabSelected == TabSelected.assessments;
+      _isAppointmentTabSelected = _tabSelected == TabSelected.appointments;
     });
   }
 
@@ -402,97 +403,124 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  ListView myAssessmentListView() {
-    return ListView.builder(
-        itemCount: fitnessChallengesList.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/assessment');
+  FutureBuilder<List<FitnessChallenge>> myAssessmentListView() {
+    return FutureBuilder<List<FitnessChallenge>>(
+      future: assessmentsData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              final item = snapshot.data![index];
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/assessment');
+                },
+                child: assessmentListItem(item),
+              );
             },
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              decoration: BoxDecoration(
-                color: ColorContainer.clrWhite,
-                borderRadius: BorderRadius.circular(20),
+          );
+        } else {
+          return Center(child: Text('No Assessments Found'));
+        }
+      },
+    );
+  }
+
+  Widget assessmentListItem(FitnessChallenge item) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      decoration: BoxDecoration(
+        color: ColorContainer.clrWhite,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                bottomLeft: Radius.circular(20.0),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                      flex: 2,
-                      child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(0.0),
-                            bottomRight: Radius.circular(0.0),
-                            bottomLeft: Radius.circular(20.0),
-                          ),
-                          child: Image.asset(
-                            fitnessChallengesList[index].imgAssetPath,
-                            fit: BoxFit.fill,
-                          ))),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            fitnessChallengesList[index].title,
-                            softWrap: true,
-                            style: const TextStyle(
-                                color: ColorContainer.clrGray2,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                                fitnessChallengesList[index].description,
-                                textAlign: TextAlign.start,
-                                style: GoogleFonts.poppins(
-                                    color: ColorContainer.clrGray2,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 11)),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'lib/assets/icons/play_round.svg',
-                                  height: 30,
-                                  width: 30,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10),
-                                  child: Text(
-                                    'Start',
-                                    style: GoogleFonts.poppins(
-                                        color: ColorContainer.clrBlue1,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                              ],
+              child: Image.asset(
+                item.imgAssetPath,
+                // item.entries.elementAt(2).value[0].toString(),
+                // item['imgAssetPath'],
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                   Text(
+                     item.title,
+                     // item.entries.elementAt(1).value[0].toString(),
+                    // item['title'],
+                    softWrap: true,
+                    style: const TextStyle(
+                      color: ColorContainer.clrGray2,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      item.description,
+                      // item.entries.elementAt(0).value[0].toString(),
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.poppins(
+                        color: ColorContainer.clrGray2,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'lib/assets/icons/play_round.svg',
+                          height: 30,
+                          width: 30,
+                        ),
+                        Container(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          child: Text(
+                            'Start',
+                            style: GoogleFonts.poppins(
+                              color: ColorContainer.clrBlue1,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          );
-        });
+          ),
+        ],
+      ),
+    );
   }
 
   Container tabSelectorContainer() {
@@ -512,7 +540,7 @@ class _HomePageState extends State<HomePage> {
             child: tabTxtButton(_isAssessmentTabSelected, 'My Assessments', () {
               setState(() {
                 _tabSelected = TabSelected.assessments;
-                _changeTabSelected();
+                _changeTabSelected(_tabSelected);
               });
             }),
           ),
@@ -522,7 +550,7 @@ class _HomePageState extends State<HomePage> {
                 tabTxtButton(_isAppointmentTabSelected, 'My Appointments', () {
               setState(() {
                 _tabSelected = TabSelected.appointments;
-                _changeTabSelected();
+                _changeTabSelected(_tabSelected);
               });
             }),
           ),
