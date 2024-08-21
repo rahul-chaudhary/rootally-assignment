@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   TabSelected _tabSelected = TabSelected.assessments;
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
-  late Future<List<Map<String, dynamic>>> assessmentsData;
+  late Future<List<FitnessChallenge>> assessmentsData;
   @override
   void initState() {
     super.initState();
@@ -403,8 +403,8 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  FutureBuilder<List<Map<String, dynamic>>> myAssessmentListView() {
-    return FutureBuilder<List<Map<String, dynamic>>>(
+  FutureBuilder<List<FitnessChallenge>> myAssessmentListView() {
+    return FutureBuilder<List<FitnessChallenge>>(
       future: assessmentsData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -431,7 +431,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget assessmentListItem(Map<String, dynamic> item) {
+  Widget assessmentListItem(FitnessChallenge item) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -449,7 +449,8 @@ class _HomePageState extends State<HomePage> {
                 bottomLeft: Radius.circular(20.0),
               ),
               child: Image.asset(
-                item.entries.elementAt(2).value[0].toString(),
+                item.imgAssetPath,
+                // item.entries.elementAt(2).value[0].toString(),
                 // item['imgAssetPath'],
                 fit: BoxFit.fill,
               ),
@@ -464,7 +465,8 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                    Text(
-                     item.entries.elementAt(1).value[0].toString(),
+                     item.title,
+                     // item.entries.elementAt(1).value[0].toString(),
                     // item['title'],
                     softWrap: true,
                     style: const TextStyle(
@@ -476,7 +478,8 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Text(
-                      item.entries.elementAt(0).value[0].toString(),
+                      item.description,
+                      // item.entries.elementAt(0).value[0].toString(),
                       textAlign: TextAlign.start,
                       style: GoogleFonts.poppins(
                         color: ColorContainer.clrGray2,
