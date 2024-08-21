@@ -12,7 +12,7 @@ List<FitnessChallenge> fitnessChallengesList = [
   FitnessChallenge(
     title: "Fitness Assessment",
     description: "Get started on your fitness goals with our physical assessment and vital scan",
-    imgAssetPath: 'lib/assets/images/gym_girl.png',
+    imgAssetPath: 'lib/assets/images/gym_girl2.png',
   ),
   FitnessChallenge(
     title: "Cardio Training",
