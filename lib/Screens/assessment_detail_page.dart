@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +31,7 @@ class AssessmentDetailPage extends StatefulWidget {
 class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
   @override
   Widget build(BuildContext context) {
-    final int itemTitle = ModalRoute.of(context)!.settings.arguments as int;
+    final argsMap = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorContainer.clrGreen2,
@@ -39,7 +40,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              topContainer(itemTitle),
+              topContainer(argsMap),
               Container(
                 decoration: const BoxDecoration(
                   color: ColorContainer.clrWhite,
@@ -162,7 +163,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
     );
   }
 
-  Container topContainer(int itemIndex) {
+  Container topContainer(Map<String, dynamic> argsMap) {
     return Container(
       height: 250,
       decoration: const BoxDecoration(
@@ -188,9 +189,12 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     icon: const Icon(Icons.arrow_back),
                     color: ColorContainer.clrIndigo, onPressed: () { Navigator.pop(context); },
                   ),
-                  Text(
-                    // 'Health Risk Assessment',
-                   'Fitness Assessment',
+                  AutoSizeText(
+                    argsMap.entries.last.value.title,
+                    maxLines: 2,
+                    minFontSize: 12,
+                    maxFontSize: 25,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
                         fontSize: 25,
                         fontWeight: FontWeight.w700,
@@ -235,9 +239,10 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               child: Expanded(
                   flex: 2,
                   child: Hero(
-                    tag: 'HERO_TAG_$itemIndex',
+                    tag: 'HERO_TAG_${argsMap['index']}',
                     child: Image.asset(
-                      'lib/assets/images/pointing_gym_boy.png',
+                      argsMap.entries.last.value.imgAssetPath,
+                      // 'lib/assets/images/pointing_gym_boy.png',
                       height: double.infinity,
                       alignment: Alignment.bottomCenter,
                       fit: BoxFit.fill,
