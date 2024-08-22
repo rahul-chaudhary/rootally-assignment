@@ -9,6 +9,7 @@ import '../model/assessment_feature.dart';
 class AssessmentDetailPage extends StatefulWidget {
   const AssessmentDetailPage({super.key});
 
+
   static const List howDoWeDoItInstructionList = [
     '1. Ensure that you are in a well-lit space',
     '2. Allow camera access and place your device against a stable object or wall',
@@ -29,6 +30,7 @@ class AssessmentDetailPage extends StatefulWidget {
 class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final int itemTitle = ModalRoute.of(context)!.settings.arguments as int;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorContainer.clrGreen2,
@@ -37,7 +39,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              topContainer(),
+              topContainer(itemTitle),
               Container(
                 decoration: const BoxDecoration(
                   color: ColorContainer.clrWhite,
@@ -160,7 +162,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
     );
   }
 
-  Container topContainer() {
+  Container topContainer(int itemIndex) {
     return Container(
       height: 250,
       decoration: const BoxDecoration(
@@ -187,7 +189,8 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     color: ColorContainer.clrIndigo, onPressed: () { Navigator.pop(context); },
                   ),
                   Text(
-                    'Health Risk Assessment',
+                    // 'Health Risk Assessment',
+                   'Fitness Assessment',
                     style: GoogleFonts.poppins(
                         fontSize: 25,
                         fontWeight: FontWeight.w700,
@@ -231,11 +234,14 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               padding: const EdgeInsets.only(top: 30.0),
               child: Expanded(
                   flex: 2,
-                  child: Image.asset(
-                    'lib/assets/images/pointing_gym_boy.png',
-                    height: double.infinity,
-                    alignment: Alignment.bottomCenter,
-                    fit: BoxFit.fill,
+                  child: Hero(
+                    tag: 'HERO_TAG_$itemIndex',
+                    child: Image.asset(
+                      'lib/assets/images/pointing_gym_boy.png',
+                      height: double.infinity,
+                      alignment: Alignment.bottomCenter,
+                      fit: BoxFit.fill,
+                    ),
                   )),
             )
           ],

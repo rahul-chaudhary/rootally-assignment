@@ -3,11 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
 import 'package:rootally_assignment/retrieve_data.dart';
+import 'package:rootally_assignment/utils/average_color_image_asset.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
 import '../assets/colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
 import '../model/tab_selected.dart';
+import '../utils/random_color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -23,11 +25,13 @@ class _HomePageState extends State<HomePage> {
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
   late Future<List<FitnessChallenge>> assessmentsData;
+
   @override
   void initState() {
     super.initState();
     assessmentsData = getAllAssessment();
   }
+
   void _changeTabSelected(TabSelected selectedTab) {
     setState(() {
       _tabSelected = selectedTab;
@@ -382,7 +386,6 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(20),
               color: appointmentList[index].containerColor,
             ),
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -418,20 +421,24 @@ class _HomePageState extends State<HomePage> {
               final item = snapshot.data![index];
               return InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/assessment');
+                  Navigator.pushNamed(
+                      context,
+                      '/assessment',
+                  arguments: index,
+                  );
                 },
-                child: assessmentListItem(item),
+                child: assessmentListItem(item, index),
               );
             },
           );
         } else {
-          return Center(child: Text('No Assessments Found'));
+          return const Center(child: Text('No Assessments Found'));
         }
       },
     );
   }
 
-  Widget assessmentListItem(FitnessChallenge item) {
+  Widget assessmentListItem(FitnessChallenge item, int itemIndex) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -443,17 +450,33 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             flex: 2,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                bottomLeft: Radius.circular(20.0),
-              ),
-              child: Image.asset(
-                item.imgAssetPath,
-                // item.entries.elementAt(2).value[0].toString(),
-                // item['imgAssetPath'],
-                fit: BoxFit.fill,
-              ),
+            child: FutureBuilder<Color>(
+              future: getAverageColorFromAsset(item.imgAssetPath),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
+                    child: Container(
+                      color: snapshot.data ?? Colors.grey,
+                      // Use default color if null
+                      child: Hero(
+                        tag: 'HERO_TAG_$itemIndex',
+                        child: Image.asset(
+                          item.imgAssetPath,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
           Expanded(
@@ -464,10 +487,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                   Text(
-                     item.title,
-                     // item.entries.elementAt(1).value[0].toString(),
-                    // item['title'],
+                  Text(
+                    item.title,
                     softWrap: true,
                     style: const TextStyle(
                       color: ColorContainer.clrGray2,
@@ -479,7 +500,6 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Text(
                       item.description,
-                      // item.entries.elementAt(0).value[0].toString(),
                       textAlign: TextAlign.start,
                       style: GoogleFonts.poppins(
                         color: ColorContainer.clrGray2,
@@ -500,8 +520,8 @@ class _HomePageState extends State<HomePage> {
                           width: 30,
                         ),
                         Container(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 10),
                           child: Text(
                             'Start',
                             style: GoogleFonts.poppins(
