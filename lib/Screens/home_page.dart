@@ -424,7 +424,10 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(
                       context,
                       '/assessment',
-                  arguments: index,
+                  arguments: {
+                        'index': index,
+                        'fitnessChallengeItem': item
+                  },
                   );
                 },
                 child: assessmentListItem(item, index),
