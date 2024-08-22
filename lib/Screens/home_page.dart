@@ -25,11 +25,13 @@ class _HomePageState extends State<HomePage> {
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
   late Future<List<FitnessChallenge>> assessmentsData;
+
   @override
   void initState() {
     super.initState();
     assessmentsData = getAllAssessment();
   }
+
   void _changeTabSelected(TabSelected selectedTab) {
     setState(() {
       _tabSelected = selectedTab;
@@ -384,7 +386,6 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(20),
               color: appointmentList[index].containerColor,
             ),
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -420,9 +421,13 @@ class _HomePageState extends State<HomePage> {
               final item = snapshot.data![index];
               return InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/assessment');
+                  Navigator.pushNamed(
+                      context,
+                      '/assessment',
+                  arguments: index,
+                  );
                 },
-                child: assessmentListItem(item),
+                child: assessmentListItem(item, index),
               );
             },
           );
@@ -433,7 +438,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget assessmentListItem(FitnessChallenge item) {
+  Widget assessmentListItem(FitnessChallenge item, int itemIndex) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -443,33 +448,37 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Row(
         children: [
-        Expanded(
-        flex: 2,
-        child: FutureBuilder<Color>(
-          future: getAverageColorFromAsset(item.imgAssetPath),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              return ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  bottomLeft: Radius.circular(20.0),
-                ),
-                child: Container(
-                  color: snapshot.data ?? Colors.grey, // Use default color if null
-                  child: Image.asset(
-                    item.imgAssetPath,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              );
-            }
-          },
-        ),
-      ),
+          Expanded(
+            flex: 2,
+            child: FutureBuilder<Color>(
+              future: getAverageColorFromAsset(item.imgAssetPath),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
+                    child: Container(
+                      color: snapshot.data ?? Colors.grey,
+                      // Use default color if null
+                      child: Hero(
+                        tag: 'HERO_TAG_$itemIndex',
+                        child: Image.asset(
+                          item.imgAssetPath,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
           Expanded(
             flex: 3,
             child: Container(
@@ -478,8 +487,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                   Text(
-                     item.title,
+                  Text(
+                    item.title,
                     softWrap: true,
                     style: const TextStyle(
                       color: ColorContainer.clrGray2,
@@ -511,8 +520,8 @@ class _HomePageState extends State<HomePage> {
                           width: 30,
                         ),
                         Container(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 10),
                           child: Text(
                             'Start',
                             style: GoogleFonts.poppins(
