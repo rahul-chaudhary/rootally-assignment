@@ -9,7 +9,6 @@ import '../assets/colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
 import '../model/tab_selected.dart';
-import '../utils/random_color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   void _changeTabSelected(TabSelected selectedTab) {
     setState(() {
       _tabSelected = selectedTab;
-
       _isAssessmentTabSelected = _tabSelected == TabSelected.assessments;
       _isAppointmentTabSelected = _tabSelected == TabSelected.appointments;
     });
@@ -44,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorContainer.clrWhite,
+      // backgroundColor: ,
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: ColorContainer.clrWhite,

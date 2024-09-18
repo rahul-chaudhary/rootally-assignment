@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rootally_assignment/utils/routes.dart';
+import 'package:rootally_assignment/utils/theme/theme.dart';
 import 'Screens/assessment_detail_page.dart';
 import 'Screens/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,16 +24,14 @@ class RootallyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rootally AI',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textTheme: GoogleFonts.poppinsTextTheme(),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.system,
+      theme: RATheme.lightTheme,
+      darkTheme: RATheme.darkTheme,
       home: const HomePage(title: 'Hello Jane'),
-      initialRoute: '/home',
+      initialRoute: Routes.home,
       routes: {
-        '/home': (context) => const HomePage(title: 'Hello Jane'),
-        '/assessment': (context) => const AssessmentDetailPage(),
+        Routes.home: (context) => const HomePage(title: 'Hello Jane'),
+        Routes.assessment: (context) => const AssessmentDetailPage(),
       },
     );
   }
