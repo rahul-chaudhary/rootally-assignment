@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
 import 'package:rootally_assignment/data/retrieve_data.dart';
@@ -10,6 +11,8 @@ import '../assets/colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
 import '../model/tab_selected.dart';
+import '../utils/consts/assets_path.dart';
+import '../utils/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: customColors!.workoutRoutineCardColor!,
         border: Border.all(
           color: customColors!.tabContentContainerColor!,
           width: 1.5,
@@ -136,10 +139,13 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Text(
                     workoutTitle,
-                    style: GoogleFonts.poppins(
-                        color: ColorContainer.clrGray2,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontSize: 18,
+                    ),
+                  //   GoogleFonts.poppins(
+                  //       color: ColorContainer.clrGray2,
+                  //       fontWeight: FontWeight.w500,
+                  //       fontSize: 18),
                   ),
                   Text(
                     workoutType,
@@ -284,7 +290,7 @@ class _HomePageState extends State<HomePage> {
             flex: 1,
             child: SizedBox(
               child: Image.asset(
-                'lib/assets/images/push_up_girl.png',
+                AssetsPath.pushUpGirlImg,
                 alignment: Alignment.centerRight,
               ),
             ),
@@ -302,28 +308,26 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Text(
             title,
-            style: GoogleFonts.poppins(
-                color: ColorContainer.clrGray2,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w500,
-                fontSize: 16),
+            ),
           ),
           const Spacer(),
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/assessment');
+              // Navigator.pushNamed(context, Routes.home);
+              Fluttertoast.showToast(msg: 'View All Clicked');
             },
             child: Text(
               'View All',
-              style: GoogleFonts.poppins(
-                color: ColorContainer.clrGray2,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                decoration: TextDecoration.underline,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
               ),
             ),
           ),
           SvgPicture.asset(
-            'lib/assets/icons/arrow_forward_round_filled.svg',
+            AssetsPath.arrowForwardRoundIcon,
             height: 25,
             width: 25,
           ),
@@ -429,7 +433,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.pushNamed(
                       context,
-                      '/assessment',
+                      Routes.assessment,
                   arguments: {
                         'index': index,
                         'fitnessChallengeItem': item
@@ -452,7 +456,7 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
-        color: ColorContainer.clrWhite,
+        color: customColors!.assessmentCardColor!,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -499,22 +503,14 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     item.title,
                     softWrap: true,
-                    style: const TextStyle(
-                      color: ColorContainer.clrGray2,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Text(
                       item.description,
                       textAlign: TextAlign.start,
-                      style: GoogleFonts.poppins(
-                        color: ColorContainer.clrGray2,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   Container(
@@ -524,7 +520,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'lib/assets/icons/play_round.svg',
+                          AssetsPath.playRoundIcon,
                           height: 30,
                           width: 30,
                         ),

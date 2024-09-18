@@ -2,8 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rootally_assignment/utils/consts/assets_path.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
-
+import 'package:rootally_assignment/utils/theme/custom_themes/custom_colors.dart';
 import '../assets/colors_container.dart';
 import '../model/assessment_feature.dart';
 
@@ -42,9 +43,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             children: <Widget>[
               topContainer(argsMap),
               Container(
-                decoration: const BoxDecoration(
-                  color: ColorContainer.clrWhite,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25)),
                 ),
@@ -57,7 +58,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     // featureContainer(),
                     Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: Image.asset('lib/assets/images/assessment_feature.png')),
+                        child: Image.asset(AssetsPath.assessmentFeatureImg)),
                     Container(
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: titleText('How we do it?')),
@@ -101,8 +102,8 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: ColorContainer.clrWhite2,
-          border: Border.all(width: 1, color: ColorContainer.clrGray3),
+          color: Theme.of(context).extension<CustomColors>()?.workoutRoutineCardColor, //ColorContainer.clrWhite2,
+          // border: Border.all(width: 0, color: ColorContainer.clrGray3),
           borderRadius: BorderRadius.circular(20)),
       child: Center(
         child: Column(
@@ -127,7 +128,8 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
   Text instructionText(String txt) {
     return Text(
       txt,
-      style: GoogleFonts.poppins(color: ColorContainer.clrGray2, fontSize: 12, fontWeight: FontWeight.w500),
+      style: Theme.of(context).textTheme.bodyMedium,
+      //GoogleFonts.poppins(color: ColorContainer.clrGray2, fontSize: 12, fontWeight: FontWeight.w500),
     );
   }
 
@@ -155,11 +157,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
     return Text(
       title,
       textAlign: TextAlign.center,
-      style: GoogleFonts.poppins(
-        color: ColorContainer.clrIndigo,
-        fontSize: 20,
+      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
         fontWeight: FontWeight.w600,
-      ),
+      )
     );
   }
 
@@ -195,10 +195,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     minFontSize: 12,
                     maxFontSize: 25,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: ColorContainer.clrIndigo),
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: ColorContainer.clrIndigo,
+                    ),
                   ),
                   Container(
                     height: 25,

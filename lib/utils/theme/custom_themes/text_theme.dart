@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../assets/colors_container.dart';
 
@@ -23,8 +24,10 @@ class RATextTheme {
     //title
     titleLarge: const TextStyle().copyWith(
         fontSize: 14,
+        fontFamily: GoogleFonts.poppins().fontFamily,
         fontWeight: FontWeight.bold,
-        color: ColorContainer.clrGray2),
+        color: ColorContainer.clrGray2,
+    ),
     titleMedium: const TextStyle().copyWith(
         fontSize: 12,
         fontWeight: FontWeight.bold,
@@ -37,15 +40,15 @@ class RATextTheme {
     //body
     bodyLarge: const TextStyle().copyWith(
         fontSize: 14,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: ColorContainer.clrGray2),
     bodyMedium: const TextStyle().copyWith(
         fontSize: 12,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: ColorContainer.clrGray2),
     bodySmall: const TextStyle().copyWith(
         fontSize: 10,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         color: ColorContainer.clrGray2),
   );
   static TextTheme darkTextTheme = TextTheme(

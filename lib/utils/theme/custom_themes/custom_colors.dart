@@ -5,6 +5,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? tabButtonSelectedColor;
   final Color? tabButtonUnselectedColor;
   final Color? tabContentContainerColor;
+  final Color? assessmentCardColor;
+  final Color? workoutRoutineCardColor;
 
 
   CustomColors({
@@ -12,7 +14,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     this.tabSelectorContainerColor,
     this.tabButtonSelectedColor,
     this.tabButtonUnselectedColor,
-
+    this.assessmentCardColor,
+    this.workoutRoutineCardColor,
   });
 
   @override
@@ -22,6 +25,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
         tabSelectorContainerColor: tabSelectorContainerColor ?? tabSelectorContainerColor,
         tabButtonSelectedColor: tabButtonSelectedColor ?? tabButtonSelectedColor,
         tabButtonUnselectedColor: tabButtonUnselectedColor ?? tabButtonUnselectedColor,
+        assessmentCardColor: assessmentCardColor ?? assessmentCardColor,
+        workoutRoutineCardColor: workoutRoutineCardColor ?? workoutRoutineCardColor,
     );
   }
 
@@ -33,7 +38,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
       tabSelectorContainerColor: Color.lerp(tabSelectorContainerColor, other.tabSelectorContainerColor, t,),
       tabButtonSelectedColor: Color.lerp(tabButtonSelectedColor, other.tabButtonSelectedColor, t,),
       tabButtonUnselectedColor: Color.lerp(tabButtonUnselectedColor, other.tabButtonUnselectedColor, t,),
-
+      assessmentCardColor: Color.lerp(assessmentCardColor, other.assessmentCardColor, t,),
+      workoutRoutineCardColor: Color.lerp(workoutRoutineCardColor, other.workoutRoutineCardColor, t,),
     );
   }
 }

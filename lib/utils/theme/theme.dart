@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/utils/theme/custom_themes/appbar_theme.dart';
 import 'package:rootally_assignment/utils/theme/custom_themes/bottom_sheet_theme.dart';
 import 'package:rootally_assignment/utils/theme/custom_themes/checkbox_theme.dart';
@@ -15,14 +16,21 @@ class RATheme {
 
   static ThemeData lightTheme = ThemeData(
     extensions: <ThemeExtension<dynamic>>[
-      CustomColors(tabContentContainerColor: ColorContainer.clrWhite),
+      CustomColors(
+        tabContentContainerColor: ColorContainer.clrPurple1,
+        tabSelectorContainerColor: ColorContainer.clrPurple1,
+        tabButtonSelectedColor: ColorContainer.clrWhite2,
+        tabButtonUnselectedColor: ColorContainer.clrPurple1,
+        assessmentCardColor: ColorContainer.clrWhite,
+        workoutRoutineCardColor: ColorContainer.clrWhite,
+      ),
     ],
     colorScheme: const ColorScheme.light(),
     useMaterial3: true,
-    fontFamily: 'Poppins',
+    fontFamily: GoogleFonts.poppins().fontFamily,
     brightness: Brightness.light,
     primaryColor: ColorContainer.clrBlue1,
-    scaffoldBackgroundColor: ColorContainer.clrWhite,
+    scaffoldBackgroundColor: ColorContainer.clrWhite2,
     textTheme:RATextTheme.lightTextTheme,
     elevatedButtonTheme: RAElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: RAOutlinedButtonTheme.lightOutlinedButtonTheme,
@@ -39,13 +47,14 @@ class RATheme {
           tabSelectorContainerColor: ColorContainer.clrBlueGrey2,
           tabButtonSelectedColor: ColorContainer.clrBlueGrey1,
           tabButtonUnselectedColor: ColorContainer.clrBlueGrey2,
-
+          assessmentCardColor: ColorContainer.clrBlueGrey1,
+          workoutRoutineCardColor: ColorContainer.clrBlueGrey2,
 
       ),
     ],
     colorScheme: const ColorScheme.dark(),
     useMaterial3: true,
-    fontFamily: 'Poppins',
+    fontFamily: GoogleFonts.poppins().fontFamily,
     brightness: Brightness.dark,
     primaryColor: ColorContainer.clrBlue1,
     scaffoldBackgroundColor: ColorContainer.clrBlueGrey1,
