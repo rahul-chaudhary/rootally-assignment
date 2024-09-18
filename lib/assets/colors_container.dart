@@ -7,6 +7,8 @@ class ColorContainer {
   static const Color clrWhite2 = Color(0xfffafbff);
   static const Color clrBlue1 = Color(0xff255fd5);
   static const Color clrBlue2 = Color(0xffc6d9ff);
+  static const Color clrBlueGrey1 = Color(0xff232531);
+  static const Color clrBlueGrey2 = Color(0xff333645);
   static const Color clrIndigo = Color(0xff222e58);
   static const Color clrPurple1 = Color(0xfff0f1f9);
   static const Color clrPurple2 = Color(0xffe9c6ff);

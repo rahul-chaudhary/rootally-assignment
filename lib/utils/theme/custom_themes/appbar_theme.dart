@@ -6,9 +6,9 @@ class RAAppBarTheme {
   RAAppBarTheme._();
 
   static const lightAppBarTheme = AppBarTheme(
-    elevation: 0,
+    elevation: 10,
     centerTitle: false,
-    scrolledUnderElevation: 0,
+    scrolledUnderElevation: 10,
     surfaceTintColor: ColorContainer.clrTransparent,
     backgroundColor: ColorContainer.clrTransparent,
     iconTheme: IconThemeData(

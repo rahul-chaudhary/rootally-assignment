@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rootally_assignment/model/workout_routine.dart';
-import 'package:rootally_assignment/retrieve_data.dart';
+import 'package:rootally_assignment/data/retrieve_data.dart';
 import 'package:rootally_assignment/utils/average_color_image_asset.dart';
 import 'package:rootally_assignment/utils/icon_button.dart';
+import 'package:rootally_assignment/utils/theme/custom_themes/custom_colors.dart';
 import '../assets/colors_container.dart';
 import '../model/appointment.dart';
 import '../model/fitness_challenge.dart';
@@ -24,6 +25,13 @@ class _HomePageState extends State<HomePage> {
   bool _isAssessmentTabSelected = true;
   bool _isAppointmentTabSelected = false;
   late Future<List<FitnessChallenge>> assessmentsData;
+  CustomColors? customColors;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    customColors = Theme.of(context).extension<CustomColors>();
+  }
 
   @override
   void initState() {
@@ -45,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       // backgroundColor: ,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: ColorContainer.clrWhite,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor ,
         title: topAppBarContainer(context),
       ),
       body: SingleChildScrollView(
@@ -90,9 +98,9 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       decoration: BoxDecoration(
-        color: ColorContainer.clrWhite,
+        color: Theme.of(context).cardColor,
         border: Border.all(
-          color: ColorContainer.clrGray3,
+          color: customColors!.tabContentContainerColor!,
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(22),
@@ -327,7 +335,7 @@ class _HomePageState extends State<HomePage> {
   Container tabContentContainer() {
     return Container(
       decoration: BoxDecoration(
-        color: ColorContainer.clrPurple1,
+        color: customColors!.tabContentContainerColor!,
         borderRadius: BorderRadius.circular(30),
       ),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -549,7 +557,7 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 7),
       decoration: BoxDecoration(
-        color: ColorContainer.clrPurple1,
+        color: customColors!.tabSelectorContainerColor!,
         borderRadius: BorderRadius.circular(40),
       ),
       child: Row(
@@ -603,11 +611,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   TextButton tabTxtButton(
-      bool isEnabled, String btnText, VoidCallback onPressed) {
+      bool isSelected, String btnText, VoidCallback onPressed) {
     var btnTxtColor =
-        isEnabled ? ColorContainer.clrBlue1 : ColorContainer.clrGray1;
+        isSelected ? ColorContainer.clrBlue1 : ColorContainer.clrGray1;
     var btnBgColor =
-        isEnabled ? ColorContainer.clrWhite : ColorContainer.clrPurple1;
+        isSelected ? customColors!.tabButtonSelectedColor! : customColors!.tabButtonUnselectedColor!;
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(

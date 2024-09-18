@@ -15,7 +15,7 @@ class RATheme {
 
   static ThemeData lightTheme = ThemeData(
     extensions: <ThemeExtension<dynamic>>[
-      CustomColors(customBackground: ColorContainer.clrWhite),
+      CustomColors(tabContentContainerColor: ColorContainer.clrWhite),
     ],
     colorScheme: const ColorScheme.light(),
     useMaterial3: true,
@@ -31,15 +31,24 @@ class RATheme {
     bottomSheetTheme: RABottomSheetTheme.lightBottomSheetTheme,
     inputDecorationTheme: RATextFormFieldTheme.lightTextFieldTheme,
     appBarTheme: RAAppBarTheme.lightAppBarTheme,
-
   );
   static ThemeData darkTheme = ThemeData(
+    extensions: <ThemeExtension<dynamic>>[
+      CustomColors(
+          tabContentContainerColor: ColorContainer.clrBlueGrey2,
+          tabSelectorContainerColor: ColorContainer.clrBlueGrey2,
+          tabButtonSelectedColor: ColorContainer.clrBlueGrey1,
+          tabButtonUnselectedColor: ColorContainer.clrBlueGrey2,
+
+
+      ),
+    ],
     colorScheme: const ColorScheme.dark(),
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
-    primaryColor: ColorContainer.clrGray2,
-    scaffoldBackgroundColor: ColorContainer.clrGray2,
+    primaryColor: ColorContainer.clrBlue1,
+    scaffoldBackgroundColor: ColorContainer.clrBlueGrey1,
     textTheme:RATextTheme.darkTextTheme,
     elevatedButtonTheme: RAElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: RAOutlinedButtonTheme.darkOutlinedButtonTheme,
